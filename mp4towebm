@@ -1,23 +1,28 @@
 #!/usr/bin/env bash
 
-FILE_EXT=".webm"
+NEW_EXT=".webm"
 
 [[ ! $(type -P ffmpeg) ]] && echo 'Error: The ffmpeg executable wasn not found in $PATH' && exit 1
 
 function convert_mp4(){
-    if [ $(grep -e "\.mp4" <<< "$1") ]; then
-        ffmpeg -i "$1" -c:v libvpx -crf 4 -q:v 10 -b:v $1 -c:a libvorbis "${1/\.mp4}${FILE_EXT}"
-    else
-        echo "${1} doesn't appear to be an mp4"
-    fi
+    OLD_EXT=$(sed 's|^.*\.||' <<< "$1")
+    ffmpeg -i "$1" -c:v libvpx -crf 4 -q:v 10 -b:v "$BITRATE" -c:a libvorbis "${1/\.${OLD_EXT}}${NEW_EXT}"
 }
 
 if [ -n "$1" ]; then
+    BITRATE="$1"
+    shift
+else
+    echo "Error: the desired bitrate of the resulting video must be passed as the first argument"
+    exit 1
+fi
+
+if [ -n "$1" ]; then
     for video in "$@"; do
-        if [ -f "$video" ]; then
+        if [[ -f "$video" ]]; then
             convert_mp4 "$video"
         else
-            echo "Error: no video file(s) matching '${1}'"
+            echo "Error: no video file(s) matching '$video'"
         fi
     done
 else
