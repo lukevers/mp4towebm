@@ -2,7 +2,7 @@
 
 NEW_EXT=".webm"
 
-[[ ! $(type -P ffmpeg) ]] && echo 'Error: The ffmpeg executable wasn not found in $PATH' && exit 1
+[[ ! $(type -P ffmpeg) ]] && echo 'Error: The ffmpeg executable was not found in $PATH' && exit 1
 
 function convert_mp4(){
     OLD_EXT=$(sed 's|^.*\.||' <<< "$1")
