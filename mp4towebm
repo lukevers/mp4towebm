@@ -5,7 +5,6 @@ NEW_EXT=".webm"
 [[ ! $(type -P ffmpeg) ]] && echo 'Error: The ffmpeg executable was not found in $PATH' && exit 1
 
 function convert_mp4(){
-
 	# Figure out number of cores
 	if [ "$(uname)" == "Darwin" ]; then
 		let CORES="$(sysctl -n hw.ncpu)"
