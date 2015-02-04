@@ -22,11 +22,12 @@ find . -type f -iname "*.mp4" -exec mp4towebm 8M '{}' \;
 
 ### Folder Structure
 
-You can run `mp4towebm` in any directory, but when it is finished with a file it will check to see if there are two folders that exist:
+You can run `mp4towebm` in any directory, but it will create three folders during the process:
 
 ```
+converting
 created
 converted
 ```
 
-If one (or neither) do not exist it will create them. All of the `webm` files will be moved to the `created` folder, and all of the `mp4` files will be moved to the `converted` folder.
+If any of the folders do not exist it will create them. The `mp4` file will be moved into `converting` and then be converted there. All of the `webm` files will be moved to the `created` folder, and all of the `mp4` files will be moved to the `converted` folder when it's done.
