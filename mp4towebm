@@ -7,15 +7,15 @@ NEW_EXT=".webm"
 function convert_mp4(){
 
     if [ "$(uname)" == "Darwin" ]; then
-        available_cores = sysctl -n hw.ncpu
+        let CORES="$(sysctl -n hw.ncpu)"
     elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-        available_cores = nproc
+        let CORES="$(nproc)"
     else
-        available_cores = 1
+        let CORES=1
     fi
 
     OLD_EXT=$(sed 's|^.*\.||' <<< "$1")
-    ffmpeg -i "$1" -c:v  -threads $available_cores libvpx -crf 4 -q:v 10 -b:v "$BITRATE" -c:a libvorbis "${1/\.${OLD_EXT}}${NEW_EXT}"
+    ffmpeg -i "$1" -c:v libvpx -crf 4 -q:v 10 -b:v "$BITRATE" -c:a libvorbis -threads $CORES "${1/\.${OLD_EXT}}${NEW_EXT}"
 }
 
 if [ -n "$1" ]; then
