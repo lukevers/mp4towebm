@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 new_ext='.webm'
+start_dir="$PWD"
 
 # Colours
 [[ -t 1 ]] && {
@@ -45,15 +46,15 @@ function convert_mp4 {
     else
         num_cores=1
     fi
-    printf '%s %s\n\n' "$c_b==>" "$c_w$num_cores cores detected$c_c"
+    printf '%s %s\n' "$c_b==>" "$c_w$num_cores cores detected$c_c"
 
     # Check and see if the folder "converting" exists. If it doesn't then we want to create it.
-    [[ -d 'converting' ]] \
-        || install -d converting
+    [[ -d "$start_dir/converting" ]] \
+        || install -d "$start_dir/converting"
 
     # Move video into converting and change directories
-    mv "$1" converting/
-    pushd converting >/dev/null
+    mv "$1" "$start_dir/converting/"
+    pushd "$start_dir/converting" >/dev/null
 
     # Figure out old extension
     old_ext="${1/*\.}"
@@ -62,21 +63,21 @@ function convert_mp4 {
     ffmpeg -i "$1" -c:v libvpx -crf 4 -q:v 10 -b:v "$bitrate" -c:a libvorbis -threads $num_cores "${1/\.${old_ext}}${new_ext}"
 
     # Check to see if the folder "converted" exists. If it doesn't then we want to create it.
-    [[ -d '../converted' ]] \
-        || install -d ../converted
+    [[ -d "$start_dir/converted" ]] \
+        || install -d "$start_dir/converted"
 
     # Check and see if the folder "created" exists. If it doesn't then we want to create it.
-    [[ -d '../created' ]] \
-        || install -d ../created
+    [[ -d "$start_dir/created" ]] \
+        || install -d "$start_dir/created"
 
     # Move old mp4 files into "converted" folder
-    mv "$1" ../converted/
+    mv "$1" "$start_dir/converted/"
 
     # Move new webm files into "created" folder
-    mv "${1/\.${old_ext}}${new_ext}" ../created/
+    mv "${1/\.${old_ext}}${new_ext}" "$start_dir/created/"
 
     # Get out of the converting directory
-    popd converting >/dev/null
+    popd >/dev/null
 }
 
 type -P ffmpeg >/dev/null || {
