@@ -23,8 +23,8 @@ function help {
     printf '  %s\n\n'      "$c_y$script_name $c_w-h$c_d|$c_w--help$c_c"
     printf '%s\n'          "${c_b}EXAMPLES$c_c"
     printf '  %-56s%s\n'   "$c_y$script_name ${c_w}8M$c_c" 'Convert all files in current directory with 8M bitrate'
-    printf '  %-56s%s\n' "$c_y$script_name ${c_w}4M 4M f1.mp4 f2.mp4 f3.mp4$c_c" 'Convert certain files with 4M bitrate'
-    printf '  %-56s%s\n\n' "$c_y$script_name ${c_w}4M 3M file_*.mp4 more_*.mp4$c_c" 'Convert certain files with 3M bitrate'
+    printf '  %-56s%s\n' "$c_y$script_name ${c_w}4M f1.mp4 f2.mp4 f3.mp4$c_c" 'Convert certain files with 4M bitrate'
+    printf '  %-56s%s\n\n' "$c_y$script_name ${c_w}3M file_*.mp4 more_*.mp4$c_c" 'Convert certain files with 3M bitrate'
 }
 
 function error {
